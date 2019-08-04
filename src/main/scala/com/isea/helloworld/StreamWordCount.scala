@@ -4,7 +4,7 @@ import org.apache.flink.api.java.utils.ParameterTool
 import org.apache.flink.streaming.api.scala.{DataStream, StreamExecutionEnvironment}
 
 object StreamWordCount {
-  def main(args: Array[String]): Unit = {
+  def  main(args: Array[String]): Unit = {
     // 获取配置的相关端口
     val params: ParameterTool = ParameterTool.fromArgs(args)
     val host: String = params.get("host")
@@ -18,7 +18,7 @@ object StreamWordCount {
 
     import org.apache.flink.api.scala._
     // 做word count的操作，这里的方法，groupBy(0)指的是按照二元组的第一个元素进行分组，按照第二个元素进行求和
-    val streamDS: DataStream[(String, Int)] = socketDS.flatMap(_.split(""))
+    val streamDS: DataStream[(String, Int)] = socketDS.flatMap(_.split(" "))
       .filter(_.nonEmpty).map((_,1))
       .keyBy(0)
       .sum(1)
